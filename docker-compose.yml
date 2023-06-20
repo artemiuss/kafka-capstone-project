@@ -1,0 +1,92 @@
+services:
+
+  init_kafka:
+    container_name: init_kafka
+    build: .
+    image: producer
+    volumes:
+      - type: bind
+        source: ./init_kafka.py
+        target: /app/init_kafka.py
+    command: [ "./init_kafka.py"]
+    networks:
+      - kafka-stack-docker-compose_default
+
+  producer:
+    container_name: producer
+    build: .
+    image: producer
+    volumes:
+      - type: bind
+        source: ./producer.py
+        target: /app/producer.py
+      - type: bind
+        source: ./favorites.csv
+        target: /app/favorites.csv
+    command: [ "./producer.py"]
+    depends_on:
+      - lang_analyzer
+      - sentiment_analyzer
+      - keyword_analyzer
+    networks:
+      - kafka-stack-docker-compose_default
+  
+  lang_analyzer:
+    container_name: lang_analyzer
+    build: .
+    image: lang_analyzer
+    volumes:
+      - type: bind
+        source: ./lang_analyzer.py
+        target: /app/lang_analyzer.py
+    command: [ "./lang_analyzer.py"]
+    depends_on:
+      - init_kafka
+    networks:
+      - kafka-stack-docker-compose_default
+
+  sentiment_analyzer:
+    container_name: sentiment_analyzer
+    build: .
+    image: sentiment_analyzer
+    volumes:
+      - type: bind
+        source: ./sentiment_analyzer.py
+        target: /app/sentiment_analyzer.py
+    command: [ "./sentiment_analyzer.py"]
+    depends_on:
+      - init_kafka
+    networks:
+      - kafka-stack-docker-compose_default
+
+  keyword_analyzer:
+    container_name: keyword_analyzer
+    build: .
+    image: keyword_analyzer
+    volumes:
+      - type: bind
+        source: ./keyword_analyzer.py
+        target: /app/keyword_analyzer.py
+    command: [ "./keyword_analyzer.py"]
+    depends_on:
+      - init_kafka
+    networks:
+      - kafka-stack-docker-compose_default
+
+  reporter:
+    container_name: reporter
+    build: .
+    image: reporter
+    volumes:
+      - type: bind
+        source: ./reporter.py
+        target: /app/reporter.py
+    command: [ "./reporter.py"]
+    depends_on:
+      - init_kafka
+    networks:
+      - kafka-stack-docker-compose_default
+
+networks:
+  kafka-stack-docker-compose_default:
+    external: true

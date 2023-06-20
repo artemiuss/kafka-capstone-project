@@ -1,0 +1,7 @@
+kafka-python
+praw
+langdetect
+iso-639
+nltk
+multi_rake
+python-dotenv
