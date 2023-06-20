@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-import sys, os, time, json, datetime
+import os, json
 from kafka import KafkaConsumer
 from kafka import KafkaProducer
 from dotenv import load_dotenv
+from langdetect import detect
+from iso639 import languages
 
 def main():
     load_dotenv()
@@ -20,12 +22,12 @@ def main():
                                 enable_auto_commit=False
                             )
     producer = KafkaProducer(bootstrap_servers=[f"{KAFKA_HOST}:{KAFKA_PORT}"])
-   
+
     for message in consumer:
         print (f"partition={message.partition}, offset={message.offset}, key={message.key}, timestamp={message.timestamp}")
-        #print (f"value={message.value}")
-        json_data
-        row['lang'] = ...
+        detect_result = detect(message.value['body'])
+        message.value['lang'] = languages.get(part1=detect_result).name
+        json_data = json.dumps(message.value).encode('utf-8')
         producer.send(topic=KAFKA_TOPIC, value=json_data)
         producer.flush()
 
