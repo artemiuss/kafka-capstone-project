@@ -26,14 +26,18 @@ def main():
     sentiment_cnt = Counter()
 
     for message in consumer:
-        print (f"topic={message.topic}, partition={message.partition}, offset={message.offset}, key={message.key}, timestamp={message.timestamp}")
+        #print (f"topic={message.topic}, partition={message.partition}, offset={message.offset}, key={message.key}, timestamp={message.timestamp}")
         if message.topic == "langs":
             lang_cnt.update({message.value['lang']: 1})
-            print(lang_cnt)
+            print("[LANGUAGES] "+ ", ".join(f"{key}: {value}" for key, value in lang_cnt.items()))
+
         elif message.topic == "keywords":
             for keyword in message.value['keywords']:
                 keyword_cnt.update({keyword[0]: 1})
-            print(keyword_cnt)
+
+            keyword_cnt_top = sorted(keyword_cnt.items(), key=lambda x: x[1], reverse=True)[:10]
+            print("[KEYWORDS] "+ ", ".join(f"{key}: {value}" for key, value in keyword_cnt_top.items()))
+
         elif message.topic == "sentiments":
             if message.value['sentiment'] == '1':
                 sentiment = "positive"
@@ -43,8 +47,7 @@ def main():
                 sentiment = "negative"
             
             sentiment_cnt.update({sentiment: 1})
-            print(sentiment_cnt)
-        
+            print("[SENTIMENTS] "+ ", ".join(f"{key}: {value}" for key, value in sentiment_cnt.items()))
     consumer.close()
 
 if __name__ == '__main__':
