@@ -25,6 +25,11 @@ def main():
 
     for message in consumer:
         print (f"partition={message.partition}, offset={message.offset}, key={message.key}, timestamp={message.timestamp}")
+        
+        if message.value['body'] is None:
+            continue
+
+        # Detect language
         detect_result = detect(message.value['body'])
         message.value['lang'] = languages.get(part1=detect_result).name
         print(message.value['lang'])

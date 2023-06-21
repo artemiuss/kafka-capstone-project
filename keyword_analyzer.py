@@ -25,7 +25,10 @@ def main():
     rake = Rake()
 
     for message in consumer:
-        print (f"partition={message.partition}, offset={message.offset}, key={message.key}, timestamp={message.timestamp}")
+        #print (f"partition={message.partition}, offset={message.offset}, key={message.key}, timestamp={message.timestamp}")
+
+        if message.value['body'] is None:
+            continue
 
         # Extract keywords
         message.value['keywords'] = rake.apply(message.value['body'])[:10]
