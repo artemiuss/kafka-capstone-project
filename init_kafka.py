@@ -14,7 +14,7 @@ def main():
     admin_client = KafkaAdminClient(bootstrap_servers=[f"{KAFKA_HOST}:{KAFKA_PORT}"])
 
     try:
-        topic_names = [KAFKA_TOPIC]
+        topic_names = [KAFKA_TOPIC, "langs", "keywords", "sentiments"]
         admin_client.delete_topics(topics=topic_names)
     except UnknownTopicOrPartitionError as e:
         pass
