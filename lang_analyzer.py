@@ -30,12 +30,15 @@ def main():
             continue
 
         # Detect language
-        detect_result = detect(message.value['body'])
-        message.value['lang'] = languages.get(part1=detect_result).name
-        print(message.value['lang'])
-        json_data = json.dumps(message.value).encode('utf-8')
-        producer.send(topic="langs", value=json_data)
-        producer.flush()
+        try:
+            detect_result = detect(message.value['body'])
+            message.value['lang'] = languages.get(part1=detect_result).name
+            print(message.value['lang'])
+            json_data = json.dumps(message.value).encode('utf-8')
+            producer.send(topic="langs", value=json_data)
+            producer.flush()
+        except:
+            continue
 
     consumer.close()
     producer.close()
