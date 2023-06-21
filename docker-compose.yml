@@ -21,8 +21,8 @@ services:
         source: ./producer.py
         target: /app/producer.py
       - type: bind
-        source: ./favorites.csv
-        target: /app/favorites.csv
+        source: ./reddit_ds.csv
+        target: /app/reddit_ds.csv
     command: [ "./producer.py"]
     depends_on:
       - lang_analyzer
