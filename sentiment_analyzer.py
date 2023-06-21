@@ -30,7 +30,7 @@ def main():
     for message in consumer:
         #print (f"partition={message.partition}, offset={message.offset}, key={message.key}, timestamp={message.timestamp}")
 
-        if message.value['body'] is None:
+        if message.value['body'] is None or message.value['body'].length == 0:
             continue
 
         # Analyze sentiment
