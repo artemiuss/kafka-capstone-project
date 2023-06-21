@@ -51,11 +51,13 @@ def main():
             print("[SENTIMENTS] "+ ", ".join(f"{key}: {value}" for key, value in sentiment_cnt.items()))
     consumer.close()
 
-    print("=========================================")
+    print("=================FINAL STATS========================")
     print("[LANGUAGES] "+ ", ".join(f"{key}: {value}" for key, value in lang_cnt.items()))
+    print("")
     print("[SENTIMENTS] "+ ", ".join(f"{key}: {value}" for key, value in sentiment_cnt.items()))
+    print("")
     print("[KEYWORDS] "+ ", ".join(str(f"{x[0]}: {x[1]}") for x in keyword_cnt_top))
-    print("=========================================")
+    print("====================================================")
 
 if __name__ == '__main__':
     main()
