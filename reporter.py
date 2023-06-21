@@ -36,7 +36,8 @@ def main():
                 keyword_cnt.update({keyword[0]: 1})
 
             keyword_cnt_top = sorted(keyword_cnt.items(), key=lambda x: x[1], reverse=True)[:10]
-            print("[KEYWORDS] "+ ", ".join(f"{key}: {value}" for key, value in keyword_cnt_top.items()))
+            #print("[KEYWORDS] "+ ", ".join(f"{key}: {value}" for key, value in keyword_cnt_top.items()))
+            print("[KEYWORDS] "+ ", ".join(str(f"{x[0]}: {x[1]}") for x in keyword_cnt_top))
 
         elif message.topic == "sentiments":
             if message.value['sentiment'] == '1':
@@ -50,5 +51,9 @@ def main():
             print("[SENTIMENTS] "+ ", ".join(f"{key}: {value}" for key, value in sentiment_cnt.items()))
     consumer.close()
 
+    print("[LANGUAGES] "+ ", ".join(f"{key}: {value}" for key, value in lang_cnt.items()))
+    print("[KEYWORDS] "+ ", ".join(str(f"{x[0]}: {x[1]}") for x in keyword_cnt_top))
+    print("[SENTIMENTS] "+ ", ".join(f"{key}: {value}" for key, value in sentiment_cnt.items()))
+    
 if __name__ == '__main__':
     main()
