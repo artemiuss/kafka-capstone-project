@@ -51,6 +51,7 @@ def main():
             print("[SENTIMENTS] "+ ", ".join(f"{key}: {value}" for key, value in sentiment_cnt.items()))
     consumer.close()
 
+    keyword_cnt_top = sorted(keyword_cnt.items(), key=lambda x: x[1], reverse=True)[:10]
     print("=================FINAL STATS========================")
     print("[LANGUAGES] "+ ", ".join(f"{key}: {value}" for key, value in lang_cnt.items()))
     print("")
