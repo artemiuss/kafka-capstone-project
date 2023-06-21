@@ -27,8 +27,9 @@ def main():
         print (f"partition={message.partition}, offset={message.offset}, key={message.key}, timestamp={message.timestamp}")
         detect_result = detect(message.value['body'])
         message.value['lang'] = languages.get(part1=detect_result).name
+        print(message.value['lang'])
         json_data = json.dumps(message.value).encode('utf-8')
-        producer.send(topic=KAFKA_TOPIC, value=json_data)
+        producer.send(topic="langs", value=json_data)
         producer.flush()
 
     consumer.close()
