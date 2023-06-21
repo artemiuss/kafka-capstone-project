@@ -35,6 +35,10 @@ docker compose -f full-stack.yml down --rmi all -v --remove-orphans
 
 ## Statistics
 
-1. List of languages with numbers of messages
-2. Number of messages among sentiment classes 
-3. Top 10 keywords
+![Screenshot](screenshot.png)
+
+- List of languages with numbers of messages
+- Number of messages among sentiment classes 
+- Top 10 keywords
+
+
