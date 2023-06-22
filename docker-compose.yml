@@ -25,9 +25,8 @@ services:
         target: /app/reddit_ds.csv
     command: [ "./producer.py"]
     depends_on:
-      - lang_analyzer
-      - sentiment_analyzer
-      - keyword_analyzer
+      init_kafka:
+        condition: service_completed_successfully
     networks:
       - kafka-stack-docker-compose_default
   
@@ -41,7 +40,8 @@ services:
         target: /app/lang_analyzer.py
     command: [ "./lang_analyzer.py"]
     depends_on:
-      - init_kafka
+      init_kafka:
+        condition: service_completed_successfully
     networks:
       - kafka-stack-docker-compose_default
 
@@ -55,7 +55,8 @@ services:
         target: /app/sentiment_analyzer.py
     command: [ "./sentiment_analyzer.py"]
     depends_on:
-      - init_kafka
+      init_kafka:
+        condition: service_completed_successfully
     networks:
       - kafka-stack-docker-compose_default
 
@@ -69,7 +70,8 @@ services:
         target: /app/keyword_analyzer.py
     command: [ "./keyword_analyzer.py"]
     depends_on:
-      - init_kafka
+      init_kafka:
+        condition: service_completed_successfully
     networks:
       - kafka-stack-docker-compose_default
 
@@ -83,7 +85,8 @@ services:
         target: /app/reporter.py
     command: [ "./reporter.py"]
     depends_on:
-      - init_kafka
+      init_kafka:
+        condition: service_completed_successfully
     networks:
       - kafka-stack-docker-compose_default
 

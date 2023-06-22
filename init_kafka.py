@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os
+import os, time
 from kafka.admin import KafkaAdminClient, NewTopic
 from kafka.errors import UnknownTopicOrPartitionError, TopicAlreadyExistsError
 from dotenv import load_dotenv
@@ -19,13 +19,20 @@ def main():
     except UnknownTopicOrPartitionError as e:
         pass
 
-    topic_list = [NewTopic(name=KAFKA_TOPIC, num_partitions=10, replication_factor=1)]
+    topic_list = [
+        NewTopic(name=KAFKA_TOPIC, num_partitions=10, replication_factor=1),
+        NewTopic(name="langs", num_partitions=5, replication_factor=1),
+        NewTopic(name="keywords", num_partitions=5, replication_factor=1),
+        NewTopic(name="sentiments", num_partitions=5, replication_factor=1)
+        ]
     while True:
         try:
-            admin_client.create_topics(new_topics=topic_list, validate_only=False)
+            admin_client.create_topics(new_topics=topic_list)
             break
         except TopicAlreadyExistsError as e:
             pass
+        time.sleep(1)
+        print("Waiting for Kafka to create topics...")
 
     admin_client.close()
 
