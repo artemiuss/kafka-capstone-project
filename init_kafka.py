@@ -19,7 +19,7 @@ def main():
     except UnknownTopicOrPartitionError as e:
         pass
 
-    topic_list = [NewTopic(name=KAFKA_TOPIC, num_partitions=1, replication_factor=1)]
+    topic_list = [NewTopic(name=KAFKA_TOPIC, num_partitions=10, replication_factor=1)]
     while True:
         try:
             admin_client.create_topics(new_topics=topic_list, validate_only=False)
